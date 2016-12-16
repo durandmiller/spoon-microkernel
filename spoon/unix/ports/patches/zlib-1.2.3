@@ -1,0 +1,12 @@
+diff -Nuar zlib-1.2.3.old/configure zlib-1.2.3/configure
+--- zlib-1.2.3.old/configure	2005-07-11 22:11:57.000000000 +0200
++++ zlib-1.2.3/configure	2006-12-20 08:24:34.000000000 +0200
+@@ -19,7 +19,7 @@
+ # an error.
+ 
+ LIBS=libz.a
+-LDFLAGS="-L. ${LIBS}"
++LDFLAGS="-L. ${LIBS} $LDFLAGS"
+ VER=`sed -n -e '/VERSION "/s/.*"\(.*\)".*/\1/p' < zlib.h`
+ VER2=`sed -n -e '/VERSION "/s/.*"\([0-9]*\\.[0-9]*\)\\..*/\1/p' < zlib.h`
+ VER1=`sed -n -e '/VERSION "/s/.*"\([0-9]*\)\\..*/\1/p' < zlib.h`

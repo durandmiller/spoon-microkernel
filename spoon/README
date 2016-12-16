@@ -1,0 +1,31 @@
+
+Please see LICENSE for licensing details.
+
+
+This is the source tree for the spoon microkernel and 
+relevant apps, drivers, servers, etc.
+
+
+Run make for a decent listing of everything you can
+build.
+
+
+
+Quick start:
+------------
+
+make all
+
+
+Quick start - to make an ISO or floppy:
+-------------------------
+
+( do the above Quick Start, then ...  )
+
+
+make floppy
+make iso
+
+
+
+

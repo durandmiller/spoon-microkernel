@@ -1,0 +1,2 @@
+BASE=$(MAKEDIR)/../BUILD
+BASE=/spoon

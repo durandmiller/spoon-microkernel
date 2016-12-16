@@ -1,0 +1,323 @@
+#include <multiboot.h>
+#include <atomic.h>
+#include <assert.h>
+#include <dmesg.h>
+
+#include "arb/arb.h"
+#include "arb/kmem_cache.h"
+
+
+#define		NUM_CACHES		5
+
+static	spinlock_t		physmem_lock;
+
+static 	kmem_cache_t	b_cache;
+static	kmem_stack_t	b_cache_stack;
+static	kmem_slab_t		b_cache_slab;
+static	char 			b_cache_data[ sizeof(arb_bt_t) * KMEM_OBJECTS ]; 
+
+
+arb_t					b_arb;
+static arb_bt_t*		b_arb_free_caches[NUM_CACHES];
+static char				b_arb_data[1024];
+
+
+#ifdef _TEST_
+static	unsigned int	b_arb_free_hits[ sizeof(unsigned int) * NUM_CACHES ]; 
+static	unsigned int	b_arb_free_misses[ sizeof(unsigned int) * NUM_CACHES ]; 
+#endif
+
+
+// -----------------------------------------------------
+
+static void *official_malloc( size_t size )
+{
+	arbnum_t	ptr = arb_alloc( &b_arb, size, 0 );
+	dmesg( "%!official_malloc( %x, %i )\n", (int)ptr, (int)size );
+	if ( ptr == ARB_NOMEM ) return NULL;
+	return (void*)ptr;
+}
+
+static void official_free( void *ptr, size_t size )
+{
+	dmesg( "%!official_free( %x, %i )\n", ptr, (int)size );
+	arb_free( &b_arb, (arbnum_t)ptr, (arbnum_t)size );
+}
+
+
+
+// -----------------------------------------------------
+
+static void *fake_malloc( size_t size )
+{
+	dmesg( "%!fake_malloc( %i )\n", (int)size );
+	assert( size <= 1024 );
+	return b_arb_data;
+}
+
+static void fake_free( void *ptr, size_t size )
+{
+	dmesg( "%!fake_free( %x, %i )\n", ptr, (int)size );
+	assert( "fake_free" == "called" );
+}
+
+// -----------------------------------------------------
+
+static void setup_cache_slab( kmem_slab_t* slab )
+{
+	slab->total = KMEM_OBJECTS;
+	slab->usage = 0;
+	slab->next	= NULL;
+	slab->prev	= NULL;
+
+	slab->ptr	= &b_cache_data;
+}
+
+static void setup_cache_stack( kmem_stack_t* stack )
+{
+	stack->next = NULL;
+	stack->prev = NULL;
+	stack->position = 0;
+}
+
+
+static void setup_cache( kmem_cache_t *kmem )
+{
+	int i;
+
+	kmem->size 	= sizeof( arb_bt_t );
+	kmem->align = 0;
+	kmem->constructor = NULL;
+	kmem->destructor = NULL;
+	kmem->private = NULL;
+	kmem->alloc = fake_malloc;
+	kmem->free = fake_free;
+	kmem->cflags = 0;
+
+	kmem->used_objects = 0;
+	kmem->low_mark = 5;
+
+
+	// set up the stack.
+	setup_cache_stack( &b_cache_stack );
+	kmem->stack = &b_cache_stack;
+
+	// set up the slabs
+	setup_cache_slab( &b_cache_slab );
+	kmem->slabs = &b_cache_slab;
+
+	// Load the objects into the stack
+	for ( i = 0; i < b_cache_slab.total; i++ )
+	{
+		kmem->stack->cache[ (kmem->stack->position)++ ] = 
+				kmem->slabs->ptr + i * kmem->size;
+	}
+
+	kmem->total_objects = kmem->slabs->total;
+}
+
+
+// ----------------------------------------------
+
+
+
+static void setup_arb( arb_t *arb )
+{
+	int i = 0;
+
+	arb->cache_max = NUM_CACHES;
+	arb->alloc 	= fake_malloc;
+	arb->free 	= fake_free;
+	arb->units 	= 0x1000;
+
+	arb->tags 	= NULL;
+	arb->spans 	= NULL;
+
+	arb->admin_usage		=	0;
+	arb->admin_overhead		=   sizeof( arb_t );
+	arb->admin_hash			=	0;
+	arb->admin_bt			=	0;
+	arb->admin_span			=	0;
+
+	arb->kmem_bt			=	&b_cache;
+
+	arb->free_cache = b_arb_free_caches;
+
+	for ( i = 0; i < arb->cache_max; i++ )
+			arb->free_cache[i] = NULL;
+
+
+#ifdef _TEST_
+		arb->free_hits = b_arb_free_hits;
+		arb->free_misses = b_arb_free_misses;
+#endif
+
+}
+
+
+
+
+// ----------------------------------------------
+
+
+static int init_arb( arbnum_t start, arbnum_t size )
+{
+	int rc = 0;
+
+	dmesg("%!init_arb(%i,%i)\n",(int)start, (int)size);
+	
+	setup_cache( &b_cache );
+	setup_arb( &b_arb );
+
+	dmesg("%!init_arb(%i,%i)\n",(int)start, (int)size);
+
+	rc = arb_add_range( &b_arb, start, size );	// Fake free will assist
+	assert( rc == 0 );
+
+	dmesg("%!init_arb(%i,%i)\n",(int)start, (int)size);
+
+
+	// arb speaks to itself.
+	b_arb.alloc = official_malloc;
+	b_arb.free = official_free;
+
+	// kmem_cache speaks to arb
+	b_cache.alloc = official_malloc;
+	b_cache.free = official_free;
+
+	return 0;
+}
+
+
+
+
+static arbnum_t parse_multibootMap( memory_map_t* m_block, unsigned int count)
+{
+  uint64_t mem_total = 0;
+  int i;
+  
+  atomic_init( & (physmem_lock) );
+  
+  dmesg( "BIOS Memory Map:\n" );
+
+  for (i = 0; i < count; i ++)
+  {
+	uint64_t base_addr = m_block[i].base_addr_high;
+			 base_addr = (base_addr << 32) + m_block[i].base_addr_low;
+	
+	uint64_t base_length = m_block[i].length_high;
+			 base_length = (base_length << 32) + m_block[i].length_low;
+		  
+
+	dmesg( "  (%x) - (%x) ",
+					(unsigned int)base_addr,
+					(unsigned int)(base_addr + base_length ) );
+    
+	switch( m_block[i].type )
+	{
+		case 1: dmesg("<available>\n");  	break;
+		case 2: dmesg("<reserved>\n");		break;
+		case 3:	dmesg("<acpi reclaim>\n"); break;
+		case 4: dmesg("<acpi nvs>\n"); 	break;
+		default: dmesg("<dunno>\n"); break;
+	}
+
+
+			if (m_block[i].type == 0x1)
+		    {
+				int rc = 0;
+				arbnum_t start = base_addr / 0x1000;
+				arbnum_t size = (base_length / 0x1000);
+	
+				if ( (base_addr % 0x1000) != 0 ) start += 1;
+
+				start = start * 0x1000;
+				size = size * 0x1000;
+				
+		
+				if ( i == 0 )
+				{
+					rc = init_arb( start, size );
+					assert( rc == 0 );
+				}
+				else
+				{
+					rc = arb_add_range(&b_arb, start, size );
+					assert( rc == 0 );
+				}
+
+				mem_total += base_length;
+			}
+  }
+
+  return mem_total;
+}
+
+
+
+extern uintptr_t _KERNEL_START;
+extern uintptr_t _KERNEL_END;
+static uintptr_t KERNEL_START = (uintptr_t)&(_KERNEL_START);
+static uintptr_t KERNEL_END = (uintptr_t)&(_KERNEL_END);
+
+
+
+void init_memory( multiboot_info_t *mboot )
+{
+	arbnum_t rc;
+	
+	unsigned int count = (mboot->mmap_length / sizeof(memory_map_t) );
+	memory_map_t *addr = (memory_map_t*)mboot->mmap_addr;
+
+	parse_multibootMap( addr, count );
+
+	dmesg("%!Reserving first megabyte of memory.\n"); 
+	rc = arb_reserve( &b_arb, 0, 0x100000 );
+	assert( rc != ARB_NOMEM );
+
+	dmesg("%!Reserving kernel memory: %x - %x\n", KERNEL_START, KERNEL_END ); 
+	rc = arb_reserve( &b_arb, KERNEL_START, (KERNEL_END - KERNEL_START) );
+	assert( rc != ARB_NOMEM );
+
+	assert( "everything seemed" == "okay" );
+}
+
+
+void internal_reserve( uint32_t start, uint32_t end, int used )
+{
+	int rc = arb_reserve( &b_arb, start, (end - start) );
+	assert( rc != ARB_NOMEM );
+}
+
+
+
+
+void* memory_alloc( int pages )
+{
+	arbnum_t rc = 0;
+	acquire_spinlock( &physmem_lock );
+		rc = arb_alloc( &b_arb, 0x1000 * pages, 0 );
+	release_spinlock( &physmem_lock );
+
+	if ( rc == ARB_NOMEM ) return NULL;
+	return (void*)rc;
+}
+
+void memory_free( int pages, void *position )
+{
+	acquire_spinlock( &physmem_lock );
+
+		arbnum_t size = arb_size( &b_arb, (arbnum_t)position );
+		assert( size == pages * 0x1000 );
+
+		arb_free( &b_arb, (arbnum_t)position, pages * 0x1000 );
+	release_spinlock( &physmem_lock );
+}
+
+
+void show_memory_map()
+{
+}
+
+
+

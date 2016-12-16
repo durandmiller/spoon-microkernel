@@ -1,0 +1,8 @@
+
+
+KERNEL_VERSION=snapshot
+KERNEL_BIN=kernel
+
+
+CC=gcc
+AR=ar

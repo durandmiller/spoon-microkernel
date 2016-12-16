@@ -1,0 +1,32 @@
+zlib,zlib compression library,http://www.gzip.org/zlib/zlib-1.2.3.tar.gz,zlib-1.2.3
+gzip,Standard gzip,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/gzip/gzip-1.2.4.tar.gz,gzip-1.2.4
+libpng,The Official PNG libraries,http://belnet.dl.sourceforge.net/sourceforge/libpng/libpng-1.2.14.tar.gz,libpng-1.2.14
+libjpeg,The Official JPEG libraries,http://freshmeat.net/redir/libjpeg/5665/url_tgz/jpegsrc.v6b.tar.gz,jpeg-6b
+nasm,The Netwide Assembler,http://heanet.dl.sourceforge.net/sourceforge/nasm/nasm-0.98.39.tar.gz,nasm-0.98.39
+binutils,binutils,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/binutils/binutils-2.16.1.tar.gz,binutils-2.16.1
+#mesa,mesa,http://distfiles.gentoo.org/distfiles/MesaLib-6.5.1.tar.bz2,Mesa-6.5.1
+#coreutils,coreutils,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/coreutils/coreutils-6.7.tar.gz,coreutils-6.7
+#readline,readline,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/bash/readline-5.1.tar.gz,readline-5.1
+#tar,Tape Archive,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/tar/tar-1.16.tar.gz,tar-1.16
+#sharutils,SHAR utils,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/sharutils/REL-4.6.1/sharutils-4.6.1.tar.gz,sharutils-4.6.1
+#patch,patch,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/patch/patch-2.5.4.tar.gz,patch-2.5.4
+#parted,Partition Table Editor,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/parted/parted-1.8.1.tar.gz,parted-1.8.1
+#mc,Midnight Commander,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/mc/mc-4.5.55.tar.gz,mc-4.5.55
+#make,GNU Make,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/make/make-3.81.tar.gz,make-3.81
+#m4,M4 macro utility,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/m4/m4-1.4.8.tar.gz,m4-1.4.8
+#shtool,shtools,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/shtool/shtool-2.0.6.tar.gz,shtool-2.0.6
+#sed,sed,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/sed/sed-4.1.5.tar.gz,sed-4.1.5
+#grep,grep,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/grep/grep-2.5.1a.tar.gz,grep-2.5.1a
+#less,less,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/less/less-382.tar.gz,less-382
+#findutils,findutils,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/findutils/findutils-4.2.29.tar.gz,findutils-4.2.29
+#fdisk,fdisk,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/fdisk/fdisk-0.9.2.tar.gz,fdisk-0.9.2
+#diffutils,diffutils,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/diffutils/diffutils-2.8.1.tar.gz,diffutils-2.8.1
+#bash,bash,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/bash/bash-3.2.tar.gz,bash-3.2
+#bc,bc,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/bc/bc-1.06.tar.gz,bc-1.06
+#gawk,gawk,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/gawk/gawk-3.1.5.tar.gz,gawk-3.1.5
+#time,time,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/time/time-1.7.tar.gz,time-1.7
+#which,which,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/which/which-2.16.tar.gz,which-2.16
+#regex,regex,http://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/regex/regex-0.12.tar.gz,regex-0.12
+#python,Python,http://www.python.org/ftp/python/2.5/Python-2.5.tgz,Python-2.5
+#sash,sash shell,http://distfiles.gentoo.org/distfiles/sash-3.7.tar.gz,sash-3.7
+#gcc,GNU Compiler,http://distfiles.gentoo.org/distfiles/gcc-4.1.1.tar.gz,gcc-4.1.1

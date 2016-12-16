@@ -1,0 +1,12 @@
+diff -Nuar binutils-2.16.1/libiberty/getcwd.c new-binutils/libiberty/getcwd.c
+--- binutils-2.16.1/libiberty/getcwd.c	2003-04-15 23:29:34.000000000 +0200
++++ new-binutils/libiberty/getcwd.c	2007-01-03 22:31:26.000000000 +0200
+@@ -31,7 +31,7 @@
+ #endif
+ 
+ extern char *getwd ();
+-extern int errno;
++//extern int errno;
+ 
+ #ifndef MAXPATHLEN
+ #define MAXPATHLEN 1024

@@ -1,0 +1,12 @@
+
+
+This is a list of the working devices:
+
+
+input/8042
+misc/null
+misc/console
+storage/ata-atapi
+network/rtl8139
+
+

@@ -1,0 +1,28 @@
+include $(MAKEDIR)/make.system
+
+
+SUBS=
+POSTREMOVE=
+
+
+
+all:
+	@$(foreach dir,$(SUBS), 	\
+	   $(MAKE) -s -C $(dir);	\
+	   $(MAKE) -s -C $(dir) install; )  
+	
+clean:  
+	@$(foreach dir,$(SUBS), 	\
+	   $(MAKE) -s -C $(dir) clean; )  
+
+install:  
+	@$(foreach dir,$(SUBS), 	\
+	   $(MAKE) -s -C $(dir) install; )  
+
+	
+
+
+
+
+
+

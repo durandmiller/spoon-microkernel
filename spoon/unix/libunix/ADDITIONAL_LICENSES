@@ -1,0 +1,151 @@
+
+
+
+Portions of code were taken from:
+
+		1. Sanos Operating System Kernel libraries.
+			http://www.jbox.dk/sanos/
+			License: Modified BSD
+
+				Portions:
+					functions: stdtod, atof, strtok_r
+					Large portions of time.c - clearly marked.
+					files: strtol.c
+					
+
+		2. The FreeBSD section of the Unofficial OSKit libraries
+			http://savannah.nongnu.org/projects/oskit/
+			License: BSD
+
+				Portions:
+					files: 	include/unix/quad.h
+							udivdi3.c
+							umoddi3.c
+							qdivrem.h
+
+		3. The Trio library for all printf and scanf operations
+		    http://ctrio.sourceforge.net/
+			License: BSD
+
+			    Portions:
+				    files: trio/*
+
+		4. The OpenBSD sys library.
+		    http://gentoo.osuosl.org/distfiles/openbsd-sys-3.8.tar.bz2
+			License: BSD
+				Portions:
+					files:	include/unix/sys/ioctl_compat.h	
+							include/unix/sys/ttychars.h
+							include/unix/sys/ttydefaults.h
+							include/unix/sys/ttydev.h
+							include/unix/sys/ttycom.h
+							include/unix/sys/ioccom.h
+							include/unix/sys/dkio.h
+							include/unix/sys/ioctl.h
+							include/unix/sys/filio.h
+							include/unix/sys/sockio.h
+							include/unix/sys/cdefs.h
+							include/unix/sys/termios.h
+
+		5.	Minix
+			 http://minix3.org/
+			 License: BSD
+			 	Portions:
+					files:	getopt.c
+
+
+
+					
+
+
+1. SANOS LICENSE
+----------------
+
+Copyright (C) 2002 Michael Ringgaard. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright 
+   notice, this list of conditions and the following disclaimer.  
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.  
+3. Neither the name of the project nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+SUCH DAMAGE.
+
+
+
+
+2. FreeBSD section from Unofficial OSKit Sources
+------------------------------------------------
+
+Copyright (c) 1992, 1993
+ 	The Regents of the University of California.  All rights reserved.
+ 
+This software was developed by the Computer Systems Engineering group
+at Lawrence Berkeley Laboratory under DARPA contract BG 91-66 and
+contributed to Berkeley.
+ 
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. All advertising materials mentioning features or use of this software
+   must display the following acknowledgement:
+   This product includes software developed by the University of
+   California, Berkeley and its contributors.
+4. Neither the name of the University nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+ 
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+
+
+3. Trio license
+------------------
+
+$Id: trio.h,v 1.17 2005/05/29 11:58:14 breese Exp $
+
+Copyright (C) 1998 Bjorn Reese and Daniel Stenberg.
+
+Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
+CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
+
+
+
