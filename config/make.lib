@@ -1,0 +1,53 @@
+include $(MAKEDIR)/make.system
+
+
+
+AUTHOR=Durand Miller
+EMAIL=clutter@djm.co.za
+INSTALLPATH=$(BASE)/system/lib
+
+
+HEADERS=
+CODE="C"
+FILES=*.c
+
+
+
+all:	
+	@if [ $(CODE) == "C" ]; then 						\
+		gcc -I$(INCLUDEROOT) -I./include  $(CFLAGS) -c $(FILES);		\
+	elif [ $(CODE) == "C++" ]; then 					\
+		g++ -I$(INCLUDEROOT) -I./include $(CCFLAGS) -c  $(FILES);		\
+	fi;
+	@ar -rc $(APPNAME)  *.o
+
+
+info:
+	@echo $(DESCRIPTION)
+	@echo $(AUTHOR) \<$(EMAIL)\>
+	@echo
+	@echo Resulting library: $(APPNAME)
+	@echo
+
+
+
+clean:
+	rm -f ./*.o ./$(APPNAME)
+
+
+install:
+	@if [ ! -d $(INSTALLPATH) ]; then \
+		mkdir -p $(INSTALLPATH);		\
+	fi;
+	@cp -f ./$(APPNAME) $(INSTALLPATH)/$(APPNAME)
+	@if [ ! -d $(INCLUDEROOT) ]; then 	\
+		mkdir -p $(INCLUDEROOT);		\
+	fi;
+	@for file in $(HEADERS); do								\
+		cp -rf include/$$file $(INCLUDEROOT)/;				\
+	done;
+
+
+
+
+

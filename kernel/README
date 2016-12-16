@@ -1,0 +1,5 @@
+libcomms	- A communication framework based on smk
+libsmk		- The SMK kernel library
+old_kernel	- Legacy kernel code
+src			- The spoon microkernel source code
+common		- Common headers shared by all

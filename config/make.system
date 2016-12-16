@@ -1,0 +1,20 @@
+include $(MAKEDIR)/make.base
+
+
+SYSTEMROOT=$(BASE)/system
+INCLUDEROOT=$(BASE)/system/include
+LIBRARYROOT=$(BASE)/system/lib
+
+LDSCRIPT=$(MAKEDIR)/app.ld
+
+
+CFLAGS= -g -fno-builtin -nostdinc -static -Wall -march=i686 -L$(LIBRARYROOT)
+CCFLAGS= -g -fno-builtin -nostdinc -static -Wall -march=i686 -L$(LIBRARYROOT)
+LDFLAGS=  -static --script=$(LDSCRIPT) -L$(LIBRARYROOT)
+
+
+
+
+
+	
+
